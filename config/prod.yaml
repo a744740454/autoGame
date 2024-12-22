@@ -1,0 +1,6 @@
+mysql:
+  username: autoGame
+  password: autoGame123
+  host: localhost
+  database: autoGame
+  port: 33067

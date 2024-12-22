@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  # MySQL 服务
+  mysql:
+    image: mysql:5.7
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: autoGame123  # 设置 root 用户密码
+      MYSQL_DATABASE: autoGame          # 创建默认数据库
+      MYSQL_USER: autoGame              # 创建用户
+      MYSQL_PASSWORD: autoGame123       # 用户密码
+    ports:
+      - "33067:3306"                    # 将主机的 3306 端口映射到容器的 3306 端口
+    volumes:
+      - mysql_data:/var/lib/mysql       # 数据持久化
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql  # 将本地 init.sql 文件挂载到容器中
+
+volumes:
+  mysql_data:
