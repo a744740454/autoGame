@@ -1,5 +1,6 @@
 import yaml
 import pymysql
+
 pymysql.install_as_MySQLdb()
 
 from flask import Flask
@@ -30,4 +31,4 @@ db = SQLAlchemy(app)
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=8898)
+    app.run(debug=True, host='0.0.0.0', port=8898)
