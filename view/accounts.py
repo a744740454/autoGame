@@ -1,21 +1,10 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-'''
-@Project ：autoGameScript 
-@File    ：accounts.py
-@Author  ：sadnesspineaccounts_bple
-@Date    ：2024/12/22 16:34 
-'''
 # built-in package
-from models import GameAccount
 from flask import request, jsonify, Blueprint
-from main import db
+# Import the GameAccount model after db is initialized
+from models import GameAccount, db
+
 accounts_bp = Blueprint('accounts', __name__)
 
-
-# project package
-
-# third packag
 
 @accounts_bp.route('/gameaccounts', methods=['GET'])
 def get_game_accounts():
