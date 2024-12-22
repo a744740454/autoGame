@@ -3,26 +3,28 @@
 '''
 @Project ：autoGameScript 
 @File    ：accounts.py
-@Author  ：sadnesspineapple
+@Author  ：sadnesspineaccounts_bple
 @Date    ：2024/12/22 16:34 
 '''
 # built-in package
 from models import GameAccount
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
+from main import db
+accounts_bp = Blueprint('accounts', __name__)
 
 
 # project package
 
-# third package
+# third packag
 
-@app.route('/gameaccounts', methods=['GET'])
+@accounts_bp.route('/gameaccounts', methods=['GET'])
 def get_game_accounts():
     accounts = GameAccount.query.all()
     return jsonify([account.to_dict() for account in accounts])
 
 
 # Route to get a specific game account by ID
-@app.route('/gameaccounts/<int:id>', methods=['GET'])
+@accounts_bp.route('/gameaccounts/<int:id>', methods=['GET'])
 def get_game_account(id):
     account = GameAccount.query.get(id)
     if account:
@@ -32,7 +34,7 @@ def get_game_account(id):
 
 
 # Route to create a new game account
-@app.route('/gameaccounts', methods=['POST'])
+@accounts_bp.route('/gameaccounts', methods=['POST'])
 def create_game_account():
     data = request.get_json()
     if not data or not all(k in data for k in ['userId', 'password', 'status', 'gameType']):
@@ -54,7 +56,7 @@ def create_game_account():
 
 
 # Route to update an existing game account
-@app.route('/gameaccounts/<int:id>', methods=['PUT'])
+@accounts_bp.route('/gameaccounts/<int:id>', methods=['PUT'])
 def update_game_account(id):
     data = request.get_json()
     account = GameAccount.query.get(id)
@@ -75,7 +77,7 @@ def update_game_account(id):
 
 
 # Route to delete a game account
-@app.route('/gameaccounts/<int:id>', methods=['DELETE'])
+@accounts_bp.route('/gameaccounts/<int:id>', methods=['DELETE'])
 def delete_game_account(id):
     account = GameAccount.query.get(id)
     if not account:
