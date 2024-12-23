@@ -6,14 +6,14 @@ from models import GameAccount, db
 accounts_bp = Blueprint('accounts', __name__)
 
 
-@accounts_bp.route('/gameaccounts', methods=['GET'])
+@accounts_bp.route('/accounts_list', methods=['GET'])
 def get_game_accounts():
     accounts = GameAccount.query.all()
     return jsonify([account.to_dict() for account in accounts])
 
 
 # Route to get a specific game account by ID
-@accounts_bp.route('/gameaccounts/<int:id>', methods=['GET'])
+@accounts_bp.route('/account/<int:id>', methods=['GET'])
 def get_game_account(id):
     account = GameAccount.query.get(id)
     if account:
@@ -23,7 +23,7 @@ def get_game_account(id):
 
 
 # Route to create a new game account
-@accounts_bp.route('/gameaccounts', methods=['POST'])
+@accounts_bp.route('/create_account', methods=['POST'])
 def create_game_account():
     data = request.get_json()
     if not data or not all(k in data for k in ['userId', 'password', 'status', 'gameType']):
@@ -45,7 +45,7 @@ def create_game_account():
 
 
 # Route to update an existing game account
-@accounts_bp.route('/gameaccounts/<int:id>', methods=['PUT'])
+@accounts_bp.route('/update_account/<int:id>', methods=['PUT'])
 def update_game_account(id):
     data = request.get_json()
     account = GameAccount.query.get(id)
@@ -66,7 +66,7 @@ def update_game_account(id):
 
 
 # Route to delete a game account
-@accounts_bp.route('/gameaccounts/<int:id>', methods=['DELETE'])
+@accounts_bp.route('/delete_account/<int:id>', methods=['DELETE'])
 def delete_game_account(id):
     account = GameAccount.query.get(id)
     if not account:
