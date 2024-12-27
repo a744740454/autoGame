@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+1#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 '''
 @Project ：autoGameScript 
@@ -19,7 +19,7 @@ db = SQLAlchemy()
 class GameAccount(db.Model):
     __tablename__ = 'gameAccounts'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    userId = db.Column(db.String(255), nullable=False)
+    account = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     status = db.Column(db.String(255), nullable=False)
     datetime = db.Column(db.DateTime, default=db.func.current_timestamp())
@@ -30,11 +30,25 @@ class GameAccount(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'userId': self.userId,
+            'account': self.account,
             'password': self.password,
             'status': self.status,
             'datetime': self.datetime,
             'workType': self.workType,
             'gameType': self.gameType,
             'data': self.data
+        }
+
+class IdCard(db.Model):
+    __tablename__ = 'idCard'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    card_number = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(16), nullable=False)
+    status = db.Column(db.String(1), nullable=False)
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'card_number': self.card_number,
+            'name': self.name,
+            'status': self.status
         }

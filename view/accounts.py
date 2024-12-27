@@ -1,6 +1,5 @@
 # built-in package
 from flask import request, jsonify, Blueprint
-# Import the GameAccount model after db is initialized
 from models import GameAccount, db
 
 accounts_bp = Blueprint('accounts', __name__)
@@ -8,7 +7,16 @@ accounts_bp = Blueprint('accounts', __name__)
 
 @accounts_bp.route('/accounts_list', methods=['GET'])
 def get_game_accounts():
-    accounts = GameAccount.query.all()
+    # 获取请求中传入的 status 参数（如果有的话）
+    status = request.args.get('status')
+
+    # 如果传入了 status 参数，则进行过滤
+    if status:
+        accounts = GameAccount.query.filter_by(status=status).all()
+    else:
+        accounts = GameAccount.query.all()
+
+    # 返回查询结果的字典表示
     return jsonify([account.to_dict() for account in accounts])
 
 

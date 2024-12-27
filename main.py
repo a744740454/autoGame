@@ -1,13 +1,13 @@
-import yaml
 import pymysql
+import yaml
 from flask import Flask
+from flask_migrate import Migrate
+
 from models import db
 
 # Install pymysql as MySQLdb
 pymysql.install_as_MySQLdb()
 
-
-# Initialize the Flask app and the database
 
 def load_config(config_path='config/prod.yaml'):
     with open(config_path, 'r') as file:
@@ -27,12 +27,15 @@ def create_app(config):
     app.config['SQLALCHEMY_DATABASE_URI'] = get_mysql_uri(config)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # 在这里初始化 SQLAlchemy，确保它与 Flask 应用实例关联
+    # 初始化 SQLAlchemy 和 Migrate
     db.init_app(app)
+    migrate = Migrate(app, db)  # 添加这一行来初始化 Migrate
 
-    # 延迟导入 Blueprint，避免循环导入
+    # 注册 Blueprint 等
     from view.accounts import accounts_bp
+    from view.idCard import id_card_bp
     app.register_blueprint(accounts_bp)
+    app.register_blueprint(id_card_bp)
 
     return app
 
@@ -40,6 +43,7 @@ def create_app(config):
 # 加载配置文件
 config = load_config()
 
+app = create_app(config)
+
 if __name__ == '__main__':
-    app = create_app(config)
     app.run(debug=True, host='0.0.0.0', port=8898)
