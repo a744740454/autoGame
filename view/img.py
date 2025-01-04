@@ -63,7 +63,7 @@ def upload_image():
     image_path = os.path.join(relative_static_folder, image_path)
     # 返回成功响应
     return jsonify({
-        "message": "File uploaded and image info saved successfully",
+        "message": "success",
         "file_path": image_path,
         "image_id": image.id
     }), 200
