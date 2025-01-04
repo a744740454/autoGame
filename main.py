@@ -1,3 +1,5 @@
+import os
+
 import pymysql
 import yaml
 from flask import Flask
@@ -24,8 +26,11 @@ def get_mysql_uri(config):
 
 def create_app(config):
     app = Flask(__name__)
+    UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'image')
     app.config['SQLALCHEMY_DATABASE_URI'] = get_mysql_uri(config)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['UPLOAD_RELATIVE_FOLDER'] = os.path.join('static', 'image')
 
     # 初始化 SQLAlchemy 和 Migrate
     db.init_app(app)
@@ -34,8 +39,10 @@ def create_app(config):
     # 注册 Blueprint 等
     from view.accounts import accounts_bp
     from view.idCard import id_card_bp
+    from view.img import image_bp
     app.register_blueprint(accounts_bp)
     app.register_blueprint(id_card_bp)
+    app.register_blueprint(image_bp)
 
     return app
 

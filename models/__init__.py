@@ -1,4 +1,4 @@
-1#!/usr/bin/env python
+1  # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
 '''
 @Project ：autoGameScript 
@@ -9,6 +9,8 @@
 # built-in package
 
 # project package
+
+from datetime import datetime
 
 # third package
 from flask_sqlalchemy import SQLAlchemy
@@ -39,16 +41,34 @@ class GameAccount(db.Model):
             'data': self.data
         }
 
+
 class IdCard(db.Model):
     __tablename__ = 'idCard'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     card_number = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(16), nullable=False)
     status = db.Column(db.String(1), nullable=False)
+
     def to_dict(self):
         return {
             'id': self.id,
             'card_number': self.card_number,
             'name': self.name,
             'status': self.status
+        }
+
+
+class Image(db.Model):
+    __tablename__ = 'image'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    filename = db.Column(db.String(255), nullable=False)  # 文件名
+    path = db.Column(db.String(255), nullable=False)  # 文件路径
+    uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)  # 上传时间
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'filename': self.filename,
+            'path': self.path,
+            'uploaded_at': self.uploaded_at,
         }
